@@ -24,3 +24,41 @@
 
 ## 系統展示 (Demo)
 🔗 **線上互動儀表板**: *(待雲端部署後補上專屬網址)*
+
+## 系統演算邏輯架構 (System Architecture)
+
+本決策引擎底層依循以下邏輯流進行動態推演，確保從財務參數到排班策略的數據一致性：
+
+```mermaid
+graph TD
+    subgraph Input["1. 門市營運參數與決策輸入 (User Inputs)"]
+        direction TB
+        A1[現況月營業額]
+        A2[變動成本率: 食材]
+        A3[固定成本率: 租金/管銷雜支]
+        A4[現有產能配置: 全職/兼職編制]
+        A5[擴張決策: 新增全職 vs 調增兼職]
+    end
+
+    subgraph Engine["2. 邊際利潤演算引擎 (Core Simulation Engine)"]
+        direction TB
+        B1[法定人事附加成本自動加權<br>全職+20%, 兼職+11%]
+        B2[階梯式固定成本池聚總<br>Step-Fixed Cost Pool]
+        B3[邊際貢獻率計算<br>Contribution Margin]
+        B4[SPLH 產能物理量換算<br>Total Labor Hours]
+
+        A1 & A2 & A3 & A4 & A5 --> B1
+        B1 --> B2
+        B2 & B3 --> C1[吸收門檻推導 R1 Threshold]
+        B4 --> C2[產能利用率診斷 SPLH]
+    end
+
+    subgraph Output["3. 決策輸出與視覺化 (Executive Dashboard)"]
+        direction TB
+        D1[四柱指標看板<br>基準 vs 擴張門檻]
+        D2[損益結構路徑圖<br>成本吸收不良區間遮罩]
+        D3[營收階梯敏感度矩陣<br>利潤倒縮預警]
+        D4[系統推演摘要<br>最適排班策略]
+
+        C1 & C2 --> D1 & D2 & D3 & D4
+    end
