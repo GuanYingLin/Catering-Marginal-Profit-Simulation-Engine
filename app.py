@@ -180,7 +180,7 @@ fig.update_layout(
     legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1),
     plot_bgcolor="rgba(248, 250, 252, 0.5)",
 )
-st.plotly_chart(fig, use_container_width=True)
+st.plotly_chart(fig, width="stretch")
 
 # ==================== 區塊 3：分析與數據報表 ====================
 tab1, tab2 = st.tabs(["系統推演摘要 (Analytical Findings)", "情境敏感度矩陣 (Sensitivity Matrix)"])
@@ -230,4 +230,4 @@ with tab2:
             "推演 SPLH": f"{sim_splh:.0f} 元/hr",
             "損益吸收定性": status,
         })
-    st.dataframe(pd.DataFrame(sample_table), use_container_width=True, hide_index=True)
+    st.dataframe(pd.DataFrame(sample_table), width="stretch", hide_index=True)

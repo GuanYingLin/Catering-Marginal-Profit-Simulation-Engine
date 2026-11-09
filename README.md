@@ -1,6 +1,5 @@
-# Catering-Marginal-Profit-Simulation-Engine
-微型餐飲邊際營運決策引擎：階梯式人事成本與 SPLH 人效驗證模擬工具
-# 獨立餐飲門市邊際利潤與勞動產能推演系統 (Catering Marginal Profit Simulation Engine)
+# 獨立餐飲門市邊際利潤與勞動產能推演系統
+### Catering Marginal Profit Simulation Engine | 微型餐飲邊際營運決策引擎：階梯式人事成本與 SPLH 人效驗證模擬工具
 
 ## 專案定位 (Project Vision)
 本系統專為微型與獨立餐飲門市設計，旨在解決傳統損益表 (P&L) 缺乏動態決策預測能力的痛點。透過導入**管理會計**與**個體經濟學**框架，將抽象的門市排班決策與財務結構，轉化為具備高度視覺化與可操作性的 SaaS 級決策儀表板。
@@ -17,10 +16,10 @@
 為消除業主心算誤差與認知盲區，底層演算法自動將台灣勞動法規之雇主隱含負擔（勞保、健保、6% 勞退提繳、職災及就業保險）參數化。全職員工薪資自動加權約 20%，兼職人員時薪加權約 11%，確保邊際利潤推演具備絕對的財務精確性與法規合規性。
 
 ## 技術架構 (Tech Stack)
-* **前端視覺與動態互動 (UI/UX)**: Streamlit (Python)
-* **資料運算與模型推演**: Pandas, NumPy
-* **互動式圖表渲染**: Plotly (動態折線圖、區間遮罩、精確座標標籤定位)
-* **版本控制與持續整合部署**: Git, GitHub, Streamlit Community Cloud
+- **前端視覺與動態互動 (UI/UX)**: Streamlit (Python)
+- **資料運算與模型推演**: Pandas, NumPy
+- **互動式圖表渲染**: Plotly (動態折線圖、區間遮罩、精確座標標籤定位)
+- **版本控制與持續整合部署**: Git, GitHub, Streamlit Community Cloud
 
 ## 系統展示 (Demo)
 🔗 **線上互動儀表板**: *(待雲端部署後補上專屬網址)*
@@ -29,6 +28,7 @@
 
 本決策引擎底層依循以下邏輯流進行動態推演，確保從財務參數到排班策略的數據一致性：
 
+```mermaid
 graph LR
     classDef inputBox fill:#f8fafc,stroke:#cbd5e1,stroke-width:1px,color:#1e293b;
     classDef coreBox fill:#eff6ff,stroke:#2563eb,stroke-width:1.5px,color:#1e3a8a,font-weight:bold;
