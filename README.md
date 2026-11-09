@@ -30,7 +30,7 @@
 本決策引擎底層依循以下邏輯流進行動態推演，確保從財務參數到排班策略的數據一致性：
 
 ```mermaid
-graph TD
+graph LR
     subgraph Input["1. 門市營運參數與決策輸入 (User Inputs)"]
         direction TB
         A1[現況月營業額]
@@ -47,7 +47,6 @@ graph TD
         B3[邊際貢獻率計算<br>Contribution Margin]
         B4[SPLH 產能物理量換算<br>Total Labor Hours]
 
-        A1 & A2 & A3 & A4 & A5 --> B1
         B1 --> B2
         B2 & B3 --> C1[吸收門檻推導 R1 Threshold]
         B4 --> C2[產能利用率診斷 SPLH]
@@ -59,6 +58,13 @@ graph TD
         D2[損益結構路徑圖<br>成本吸收不良區間遮罩]
         D3[營收階梯敏感度矩陣<br>利潤倒縮預警]
         D4[系統推演摘要<br>最適排班策略]
-
-        C1 & C2 --> D1 & D2 & D3 & D4
     end
+
+    %% 連接 Input 到 Engine
+    A1 & A2 & A3 & A4 & A5 --> B1
+    A4 & A5 --> B4
+    A2 --> B3
+
+    %% 連接 Engine 到 Output
+    C1 --> D1 & D2 & D3 & D4
+    C2 --> D4
