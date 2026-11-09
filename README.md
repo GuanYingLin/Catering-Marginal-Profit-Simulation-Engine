@@ -29,43 +29,34 @@
 
 本決策引擎底層依循以下邏輯流進行動態推演，確保從財務參數到排班策略的數據一致性：
 
-```mermaid
 graph LR
-    %% 全域樣式設定
-    classDef inputNode fill:#f8fafc,stroke:#94a3b8,stroke-width:1px,color:#334155;
-    classDef engineNode fill:#eff6ff,stroke:#3b82f6,stroke-width:2px,color:#1e3a8a,font-weight:bold;
-    classDef outputNode fill:#f0fdf4,stroke:#22c55e,stroke-width:1px,color:#166534;
-    
-    subgraph S1["1. 營運與決策參數輸入 (User Inputs)"]
+    classDef inputBox fill:#f8fafc,stroke:#cbd5e1,stroke-width:1px,color:#1e293b;
+    classDef coreBox fill:#eff6ff,stroke:#2563eb,stroke-width:1.5px,color:#1e3a8a,font-weight:bold;
+    classDef outBox fill:#f0fdf4,stroke:#16a34a,stroke-width:1px,color:#14532d;
+
+    subgraph S1["1. 門市參數輸入 (Inputs)"]
         direction TB
-        I_Rev["現況月營業額"]:::inputNode
-        I_Cost["變動與固定成本率設定"]:::inputNode
-        I_Labor["現有產能配置與擴張決策"]:::inputNode
+        I1["財務結構：營收 / 變動與固定成本率"]:::inputBox
+        I2["現有編制：全職月薪 / 兼職工時"]:::inputBox
+        I3["擴張方案：新增全職 vs 調增兼職"]:::inputBox
     end
 
-    subgraph S2["2. 邊際利潤核心引擎 (Simulation Engine)"]
+    subgraph S2["2. 邊際與產能雙軌引擎 (Core Engine)"]
         direction TB
-        E_Cost["階梯固定成本與附加費用聚總"]:::engineNode
-        E_Margin["邊際貢獻率計算"]:::engineNode
-        E_SPLH["SPLH 產能利用率診斷"]:::engineNode
+        E1["財務軌：法定附加成本加權與階梯成本池聚總"]:::coreBox
+        E2["產能軌：總工時換算與 SPLH 產能飽和度診斷"]:::coreBox
+        E3["核心推演：固定成本吸收門檻 (R1 Threshold)"]:::coreBox
         
-        E_Cost & E_Margin --> E_Threshold["擴張吸收門檻推導 (R1)"]:::engineNode
-        E_SPLH -.-> E_Threshold
+        E1 --> E3
+        E2 -.->|產能邊界約束| E3
     end
 
-    subgraph S3["3. 決策輸出看板 (Dashboard)"]
+    subgraph S3["3. 決策視覺化輸出 (Outputs)"]
         direction TB
-        O_Metrics["四柱指標: 基準 vs 門檻"]:::outputNode
-        O_Chart["損益路徑與吸收不良區間圖"]:::outputNode
-        O_Matrix["營收階梯敏感度矩陣表"]:::outputNode
-        O_Summary["產能配置與排班策略摘要"]:::outputNode
+        O1["損益結構路徑圖 (標示吸收不良區間)"]:::outBox
+        O2["系統推演摘要與營收敏感度矩陣"]:::outBox
     end
 
-    %% 主線資料流連接
-    I_Rev & I_Cost --> E_Cost
-    I_Rev & I_Cost --> E_Margin
-    I_Rev & I_Labor --> E_SPLH
-    I_Labor --> E_Cost
-    
-    E_Threshold --> O_Metrics & O_Chart & O_Matrix
-    E_Threshold & E_SPLH --> O_Summary
+    I1 & I2 & I3 --> E1
+    I2 & I3 --> E2
+    E3 --> O1 & O2
